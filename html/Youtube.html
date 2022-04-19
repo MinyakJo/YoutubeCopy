@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtube</title>
+    <link rel="stylesheet" type="text/css" href="../css/youtube-top-bar.css">
+    <link rel="stylesheet" type="text/css" href="../css/youtube-left-bar.css">
+    <link rel="stylesheet" type="text/css" href="../css/youtube-main.css">
+    <link rel="stylesheet" type="text/css" href="../css/youtube-mobile.css">
+    <link rel="stylesheet" type="text/css" href="../css/public.css">
+</head>
+<body>
+    <script>
+        window.onload = function(){
+
+            createTopBar();
+            createLeftBar();
+            createContents();
+        }
+
+        const createTopBar = () => {
+            const topBar = document.createElement( "nav" );
+            topBar.id = "topBar";
+            document.body.appendChild( topBar );        
+
+            const topBarChildren = [ "logoMenu", "searchBox", "iconBox" ];
+            const topBarChildrenClass = [ "", "", "icons" ]
+            const topBarChildrenId = [];
+
+            const logoMenuItems = [ "menu", "logo" ];
+            const searchBoxItems = [ "searchButton", "voiceSearchButton" ];
+            const iconBoxItems = [ "bellIcon", "menuIcon", "uploadIcon", "userIcon" ];
+
+            const logoMenuItemsId = [];
+            const searchBoxItemsId = [];
+            const iconBoxItemsId = [];
+
+            const logoMenuImgList = [ "../img/menu-bar.png", "../img/youtube-logo.png" ];
+            const searchBoxImgList = [ "../img/search.png", "../img/voice-search.png" ];
+            const iconBoxImgList = [ "../img/bell.png", "../img/menu.png", "../img/upload.png", "../img/user.png" ];
+
+            const childrenItemsList = [ logoMenuItems, searchBoxItems, iconBoxItems ];
+            const childrenItemsIdList = [ logoMenuItemsId, searchBoxItemsId, iconBoxItemsId ];
+            const childrenImgList = [ logoMenuImgList, searchBoxImgList, iconBoxImgList ];
+
+            firstCreate( topBarChildren, topBarChildrenId, topBar );
+
+            topBarChildrenId.forEach( ( element, index, arr ) => {
+                if( element.id == "searchBox" ){
+                    const searchBar = document.createElement( "input" );
+                    searchBar.id = "searchBar";
+                    searchBar.type = "text";
+
+                    element.appendChild( searchBar );
+                }
+                childrenItemsList[ index ].forEach( ( itemElement, itemIndex, arr ) => 
+                    childrenItemsIdList[ index ][ itemIndex ] = document.getElementById( createDiv( itemElement, topBarChildrenClass[ index ], topBarChildrenId[ index ] ).id ) );
+
+                childrenItemsIdList[ index ].forEach( ( idElement, idIndex, arr ) => 
+                    idElement.appendChild( createButton( childrenImgList[ index ][ idIndex ] ) ) );
+            } );
+
+            buttonClickEvent( logoMenuItemsId );
+        }
+
+        const firstCreate = ( childrenList, childrenIdList, parent ) => {
+            childrenList.forEach( ( element, index, arr ) => 
+                childrenIdList[ index ] = document.getElementById( createDiv( element, "", parent ).id ) );
+        }
+
+        const createDiv = (idName, className, parent) => {
+            const newDiv = document.createElement( "div" );
+
+            if( !( idName == "" || idName == null || idName == "none" ) ){
+                newDiv.id = idName;
+            }
+
+            if( !( className == "" || className == null || className == "none" ) ){
+                newDiv.className = className;
+            }
+
+            parent.appendChild( newDiv );
+
+            return {
+                div: newDiv,
+                id: newDiv.id,
+                class: newDiv.class
+            }
+        }
+
+        const createButton = imgSrc => {
+            const newButton = document.createElement( "button" );
+
+            const newImg = document.createElement( "img" );
+            newImg.src = imgSrc;
+            newButton.appendChild( newImg );
+
+            return newButton;
+        }
+
+        const createLeftBar = () => {
+            const leftBar = document.createElement( "aside" );
+            leftBar.id = "leftBar";
+            document.body.appendChild( leftBar );
+
+            const leftBarChildren = [ "leftLogoMenu", "leftBox" ];
+            const leftBarChildrenId = [];
+
+            const leftLogoMenuItems = [ "leftMenu", "leftLogo" ];
+            const leftLogoMenuItemsId = [];
+            const leftLogoMenuImgList = [ "../img/menu-bar.png", "../img/youtube-logo.png" ];
+
+            firstCreate( leftBarChildren, leftBarChildrenId, leftBar );
+
+            leftLogoMenuItems.forEach( ( element, index, arr ) => 
+                leftLogoMenuItemsId[ index ] = document.getElementById( createDiv( element, "", leftBarChildrenId[0] ).id ) );
+            
+            leftLogoMenuItemsId.forEach( ( element, index, arr ) => {
+                element.appendChild( createButton( leftLogoMenuImgList[ index ] ) );
+                leftBarChildrenId[0].appendChild( element );
+            } );
+
+            const leftBoxId = leftBarChildrenId[1];
+
+            const leftButtonImgList = [ [ "../img/home.png", "../img/compass.png", "../img/subscribe.png" ],
+                                        [ "../img/playlist.png", "../img/watch-record.png", "../img/video.png", "../img/movie.png", "../img/clock.png", "../img/expand-button.png" ],
+                                        [ "../img/user.png", "../img/user.png", "../img/user.png", "../img/user.png", "../img/user.png", "../img/user.png", "../img/user.png", "../img/user.png" ], 
+                                        [ "../img/youtube-premium.png", "../img/movie.png", "../img/game.png", "../img/radio.png", "../img/light.png", "../img/user.png" ],
+                                        [ "../img/settings.png", "../img/flag.png", "../img/question.png", "../img/exclamation.png" ] ];
+    
+            const leftButtonTextList = [ [ "홈", "탐색", "구독"], 
+                                         [ "보관함", "시청기록", "내 동영상", "내 영화", "나중에 볼 동영상", "더보기" ],
+                                         [ "구독1", "구독2", "구독3", "구독4", "구독5", "구독구구구구구ㅜ구구구구구구구ㅜㄱ", "구독7" ],
+                                         [ "YoutubePremium", "영화", "게임", "실시간", "학습", "스포츠" ],
+                                         [ "설정", "신고기록", "고객센터", "의견 보내기" ] ];
+
+            const leftButtonHeaderList = [ "", "", "구독", "YOUTUBE프리미엄", "" ];
+
+            leftButtonTextList.forEach( ( element, index, arr ) => {
+                const leftButtonBox = createDiv( "", "leftButtonBox", leftBoxId ).div;
+                
+                if( leftButtonHeaderList[ index ] != "" ) {
+                    const leftButtonHeader = createDiv("", "leftButtonHeader", leftButtonBox).div;
+                    leftButtonHeader.innerHTML = leftButtonHeaderList[ index ];
+                }
+                element.forEach( ( element2, index2, arr2 ) => {
+                    leftButtonBox.appendChild( createLeftButton( leftButtonImgList[ index ][ index2 ], element2, leftButtonBox ) );
+                } );
+            } );
+
+            const leftButtonBoxFooter = createDiv("", "leftButtonBoxFooter", leftBoxId).div;
+
+            const leftButtonBoxFooterText = [ [ "정보", "보도자료", "저작권", "문의하기", "크리에이터", "광고개발자" ],
+                                              [ "약관", "개인정보처리방침정책", "정책 및 안전", "작동의 원리", "새로운 기능 테스트하기" ],
+                                              [ "© 2022 Google LLC", "CEO: 선다 피차이", "주소: 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA.", "전화: 080-822-1450(무료)" ] ];
+            
+            leftButtonBoxFooterText.forEach( ( element, index, arr ) => {
+                const leftButtonBoxFooterTextBox = createDiv( "", "leftButtonBoxFooterTextBox", leftButtonBoxFooter ).div;
+                
+                element.forEach( ( element2, index2, arr2 ) => {
+                    leftButtonBoxFooterTextBox.appendChild( createText( element2, "span", "footerText" ) );
+                } );
+            } );
+
+            buttonClickEvent( leftLogoMenuItemsId );
+            
+        }
+
+        const createLeftButton = ( src, text, parent ) => {
+            const leftButton = createDiv( "", "leftButton", parent ).div;
+            leftButton.appendChild( createImg( src, `${leftButton.className}Img` ) );
+
+            const leftButtonText = createDiv( "", `${leftButton.className}Text`, leftButton ).div;
+            leftButtonText.innerHTML = text;
+            leftButton.appendChild(leftButtonText);
+
+            return leftButton;
+        }
+
+        const createImg = ( imgSrc, className ) => {
+            const newImg = document.createElement( "img" );
+            newImg.className = className;
+            newImg.src = imgSrc;
+
+            return newImg;
+        }
+
+        const createText = ( text, tagName, className ) => {
+            const newSpan = document.createElement( tagName );
+            newSpan.className = className;
+            newSpan.innerHTML = text;
+
+            return newSpan;
+        }
+    
+        const createContents = () => {
+            const contents = document.createElement("main");
+            contents.id = "contents";
+            document.body.appendChild(contents);
+
+            createThumbnail(contents);
+        }
+
+        const createThumbnail = parent => {
+            const thumbnailImgList = [ "../img/youtube-thumbnail01.jpg", "../img/youtube-thumbnail02.jpg", "../img/youtube-thumbnail03.jpg", "../img/youtube-thumbnail04.jpg", 
+                                       "../img/youtube-thumbnail05.jpg", "../img/youtube-thumbnail06.jpg", "../img/youtube-thumbnail07.jpg", "../img/youtube-thumbnail08.jpg",
+                                       "../img/youtube-thumbnail09.jpg" ]; 
+
+            const thumbnailTitleTextList = [ "제목1", "제목2", "제목3", "제목4",
+                                         "제목5", "제목6", "제목7", "제목8", 
+                                         "제목9" ];
+
+            const thumbnailTitleAvatarList = [ "../img/user.png", "../img/user.png", "../img/user.png", "../img/user.png",
+                                               "../img/user.png", "../img/user.png", "../img/user.png", "../img/user.png",
+                                               "../img/user.png" ]
+
+            const thumbnailUserList = [ "User1", "User2", "User3", "User4", 
+                                        "User5", "User6", "User7", "User8", 
+                                        "User9" ];
+
+            const thumbnailDateList = [ "2022-01-27", "2022-01-27", "2022-01-27", "2022-01-27", 
+                                        "2022-01-27", "2022-01-27", "2022-01-27", "2022-01-27", 
+                                        "2022-01-27" ];
+
+            thumbnailImgList.forEach( ( element, index, arr ) => {
+                const thumbnail = createDiv("", "thumbnail", parent).div;
+                const thumbnailImg = createImg( thumbnailImgList[ index ], "thmbnailImg" );
+
+                const thumbnailTitle = createDiv("", "thumbnailTitle", thumbnail).div;
+                const thumbnailTitleAvatar = createImg(thumbnailTitleAvatarList[ index ] , "thumbnailTitleAvatar");
+
+                const thumbnailText = createDiv("", "thumbnailText", thumbnailTitle).div;
+                const thumbnailTitleText = createText( thumbnailTitleTextList[ index ], "h1", "thumbnailTitleText" );
+                const thumbnailUserText = createText( thumbnailUserList[ index ], "p", "thumbnailUserText" );
+                const thumbnailViewText = createText( thumbnailDateList[ index ], "p", "thumbnailViewText" );
+
+                thumbnail.appendChild( thumbnailImg );
+                thumbnail.appendChild( thumbnailTitle );
+
+                thumbnailTitle.appendChild( thumbnailTitleAvatar );
+                thumbnailTitle.appendChild( thumbnailText );
+
+                thumbnailText.appendChild( thumbnailTitleText );
+                thumbnailText.appendChild( thumbnailUserText );
+                thumbnailText.appendChild( thumbnailViewText );
+            } );
+        }
+        const buttonClickEvent = ( idList ) => {
+            idList.forEach( element => {
+                element.addEventListener( "click", () => {
+                const target = event.currentTarget.id;
+                switch( target ){
+                    case "menu":
+                    case "leftMenu":
+                        const leftBar = document.getElementById("leftBar");
+                        const contents = document.getElementById("contents");
+
+                        if(leftBar.style.left == "-251px"){
+                            leftBar.style.left = "0";
+                            contents.style.marginLeft = "266px";
+                            contents.style.width = "calc(100% - 266px)";
+                        }
+                        else{
+                            leftBar.style.left = "-251px";
+                            contents.style.marginLeft = "89px";
+                            contents.style.width = "calc(100% - 89px)";
+                        }
+                    }
+                } );
+            } );
+        }
+    </script>
+</body>
+</html>
